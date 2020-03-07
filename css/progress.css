@@ -1,0 +1,85 @@
+
+.progressbar{
+    counter-reset: step;
+    margin-top: 200px;
+    margin-left: -50px;
+    display: inline-flex;
+}
+.progressbar li{
+    list-style-type: none;
+    float: left;
+    width: 150px;
+    position: relative;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bolder;
+    font-size: 18px;
+    color: #524b4b;
+}
+.progressbar li:before{
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    height: 30px;
+    line-height: 29px;
+    border: 2px solid #524b4b;
+    display: block;
+    text-align: center;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    background-color: white;
+}
+.progressbar li:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #524b4b;
+    top: 15px;
+    left: -50%;
+    z-index: -1;
+}
+.progressbar li:first-child:after{
+    content: none;
+}
+.progressbar li.active{
+    color: #007300;
+    font-size: 18px;
+    font-weight: bolder;
+}
+.progressbar li.active:before{
+    border-color: #007300;
+    content: "\2714";
+}
+.progressbar li.active+li:after{
+    background-color: #007300;
+}
+.progressbar li.default{
+    color: red;
+    font-size: 18px;
+    font-weight: bolder;
+}
+.progressbar li.default:before{
+    border-color: red;
+    content: "\2714";
+}
+.progressbar li.default+li:after{
+    background-color: red;
+}
+.progressbar li.defaulter{
+    color: red;
+    font-size: 18px;
+    font-weight: bolder;
+}
+.progressbar li.defaulter:before{
+    border-color: red;
+    content: "\2718";
+}
+.progressbar li.upnext{
+    color: #0e0e92;
+    font-size: 18px;
+    font-weight: bolder;
+}
+.progressbar li.upnext:before{
+    border-color: #0e0e92;
+}

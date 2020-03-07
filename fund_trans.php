@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php include "dbconnect.php";?>
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -28,19 +28,29 @@
     <button onclick="genReport()">Generate report</button>
     <p id='notifs'></p>
     <p id='track'></p>
-
+    <?php
+    $user_id=$_SESSION['user_id'];
+        $sql="select * from user where id='$user_id'";
+        $res=$con->query($sql);
+        if($res->num_rows==1){
+            while($row=$res->fetch_assoc()){
+                $sender=$row['uname'];
+                echo "<script>const sender='".$sender."';</script>";
+                $addr=$row['addr'];
+	            echo "<script>const sender_addr='".$addr."';</script>";
+            }
+        }
+    ?>
     <script>
-        let senderId, receiverId, schemeId, receiver1, receiver2, receiver3, contract, newLen, balance;
+        let receiver, schemeId, contract, newLen, balance;
 
         function startApp() {
-            let abi = [{"constant":false,"inputs":[{"internalType":"address","name":"_receiver","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"string","name":"_scheme","type":"string"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"transactions","outputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"receiver","type":"address"},{"internalType":"string","name":"scheme","type":"string"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}];
-            let fundsAddress = "0xB4274740E7587f4F85D47B75b1A0eF0289017c75";
+            let abi=[{"constant":false,"inputs":[{"internalType":"address","name":"_receiver","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"string","name":"_scheme","type":"string"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"string","name":"_owner","type":"string"}],"name":"hash","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"transactions","outputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"receiver","type":"address"},{"internalType":"string","name":"scheme","type":"string"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"uname","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"}];
+            let fundsAddress = "0x9F2203Be246a2eF67a79a95AB589D4968B4a9B6B";
             let web3 = new Web3('http://localhost:8545');
             contract = new web3.eth.Contract(abi, fundsAddress);
-            senderId = "0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee";
             newLen = 0;
-            schemeId = "Universal Health Insurance Scheme";
-
+            schemeId = $("schemeId").text();
         }
         startApp();
         function timeConverter(unixTimestamp) {
@@ -49,14 +59,12 @@
             return dateObj.toLocaleString('en-IN', options).replace(/,/g, "");
         }
         function getBalance() {
-            senderId = '0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee';
             contract.methods.balanceOf(senderId).call().then(function (bal) {
                 balance = bal;
             })
         }
         function updateBalance() {
-            let bal = balance;
-            $('#balance').html(bal);
+            $('#balance').html(balance);
         }
 
         window.setInterval(function () {
@@ -72,10 +80,10 @@
         function getTransactions() {
             var notifs;
             contract.methods.getLength().call().then(function (length) {
-                if (newLen != length) {
+                if (newLen !== length) {
                     for (let transid = newLen; transid < length; transid++) {
                         contract.methods.transactions(transid).call((err, trans) => {
-                            if (trans && trans.receiver == receiver1) {
+                            if (trans && trans.receiver === receiver1) {
                                 notifs = $('#notifs').html();
                                 notifs += trans.sender + ' ' + trans.receiver + ' ' +timeConverter(trans.timestamp) +' ' + trans.amount +' ' + trans.scheme+'<br>';
                                 $('#notifs').html(notifs);
@@ -96,7 +104,7 @@
                         contract.methods.transactions(transid).call((err, trans) => {
                             if (trans && trans.scheme == schemeId) {
                                 track = $('#track').html();
-                                track += trans.sender + '&nbsp;&nbsp;' + trans.receiver + '&nbsp;&nbsp;' + timeConverter(trans.timestamp) + '&nbsp;&nbsp;' + trans.amount + '&nbsp;&nbsp;' + trans.scheme + '<br>';
+                                track += hashToName(trans.sender) + '&nbsp;&nbsp;' + hashToName(trans.receiver) + '&nbsp;&nbsp;' + timeConverter(trans.timestamp) + '&nbsp;&nbsp;' + trans.amount + '&nbsp;&nbsp;' + trans.scheme + '<br>';
                                 $('#track').html(track);
                             }
                         });
@@ -150,16 +158,17 @@
             link.remove();
         }
         function hashToName(address) {
-            let deptName;
-
-            return deptName;
+            if(address==="0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee"){
+                return "ramu";
+            }else if(address==="0x96aFC09b5b54c083E3B0Bf2bDe4A62cfD6c10508"){
+                return "kaybee";
+            }else if(address==="0x0938Bc0ff38CE4ae11FdA2b42AcB6Ca768668170"){
+                return "nidhi";
+            }else{
+                return "hunain";
+            }
         }
-        function nameToHash(id) {
-            let address;
-
-            return address;
-        }
-        function sendEmail(amount,dept,scheme,email) {
+        function sendEmail(amount,receiver,scheme,email) {
             Email.send({
                 Host: "smtp.gmail.com",
                 Username: "kbohra89@gmail.com",
@@ -167,8 +176,18 @@
                 To: email,
                 From: "kbohra89@gmail.com",
                 Subject: "Notification about fund transfer",
-                Body: "Dear Officer,<br><br>" + dept + " has received " + amount + " for " + scheme,
+                Body: "Dear Officer,<br><br>" + receiver + " has received " + amount + " for " + scheme,
             });
+        }
+
+        function updateDb(sender,receiver,amt,time_sent,scheme) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                }
+            };
+            xmlhttp.open("POST", "addTrans.php?q=" + sender+","+receiver+","+amt+","+time_sent+","+scheme, true);
+            xmlhttp.send();
         }
 
         function sendTransaction() {
@@ -179,8 +198,7 @@
             var schemeName = 'Health For All';
             var email = 'npd@somaiya.edu';
             function getData() {
-                receiver = '0xC94a06CaC980aedD3246fb4296589BA932EeA5F3';
-                userAccount = '0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee';
+                receiver = '0x96aFC09b5b54c083E3B0Bf2bDe4A62cfD6c10508';
                 if (amt > 0 && !isNaN(amt) && (balance - amt) >= 0) {
                     $('#amt').val('');
                     Swal.fire({
@@ -191,13 +209,15 @@
                         }
                     });
                     return contract.methods.transferFunds(receiver, amt, scheme)
-                        .send({ from: userAccount })
+                        .send({ from: senderAddr })
                         .once('transactionHash',function(hash){
                             console.log(hash);
                         })
                         .on('receipt', function (receipt) {
                             if (receipt) {
+
                                 updateBalance();
+                                updateDb(sender_name,receiver_name,amt,time_sent,scheme);
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Funds Disbursed',
@@ -234,5 +254,4 @@
         }
     </script>
 </body>
-
 </html>

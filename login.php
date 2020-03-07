@@ -13,8 +13,10 @@ if(isset($_POST['login'])) {
 	if ($res->num_rows == 1) {
 		if ($row = $res->fetch_assoc()) {
 			$ogpwd=$row['pwd'];
+			$category=$row['category'];
 			if($ogpwd==$pwd) {
 				$_SESSION['user_id'] = $uname;
+				$_SESSION['category'] = $category;
 			}
 		}
 	} else {
