@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+<input type="text" placeholder="money">
+<button type="submit" onclick="sendMoney()">Submit</button><br><br>
+<p id="txtStatus"></p>
+<script>
+    window.addEventListener('load', function() {
+
+        /*if (typeof web3 !== 'undefined') {
+            web3js = new Web3(web3.currentProvider);
+
+        }*/
+        startApp()
+    });
+    var userAccount;
+    function startApp() {
+        let web3js = new Web3(new Web3.providers.HttpProvider(
+            'https://ropsten.infura.io/v3/c5172f9d2da74c08acc55e4c29a4ca9f'
+        ));
+        let abi =[{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"transactions","outputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"receiver","type":"address"},{"internalType":"string","name":"scheme","type":"string"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"_receiver","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"string","name":"_scheme","type":"string"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
+        var cryptoZombiesAddress = "0x7d7A6409B9c0888F802AD02aC6407Ee2a2c269f7";
+        cryptoZombies = new web3js.eth.Contract(abi, cryptoZombiesAddress);
+
+    }
+
+
+
+    function sendMoney(){
+        var receiver='0x4A746fe073C1B1e024B96e1D4bB435f51aC7541a';
+        var amt=5000;
+        var scheme='ettst';
+        $("#txStatus").text("Creating new zombie on the blockchain. This may take a while...");
+        // Send the tx to our contract:
+        return cryptoZombies.methods.transferFunds(receiver,amt,scheme)
+            .send({ from: userAccount })
+            .on("receipt", function(receipt) {
+                $("#txStatus").text("Successfully created " + name + "!");
+                // Transaction was accepted into the blockchain, let's redraw the UI
+            })
+            .on("error", function(error) {
+                $("#txStatus").text(error);
+            });
+    }
+</script>
