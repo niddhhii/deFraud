@@ -13,6 +13,7 @@
 
     <!-- Custom styles for this template-->
     <link href="db_central.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="schemes.css">
@@ -114,11 +115,16 @@
 
 </nav>
 
+<div class="container" style="width: 950px;">
+    <input class="form-control" id="myInput" type="text" placeholder="Search for schemes..." ></input>
+    <br> 
+</div>
+  
 
 
-<div class="container-fluid" style="margin:0 50px;">
+<div class="container-fluid" style="margin:0 50px;" id="mylist">
     <br>
-
+<div>
     <h4>Department of Agriculture</h4>
     <div class="row" style="padding: 10px">
         <div class="col-md-3" style="padding-left: 50px;margin-left: -45px">
@@ -160,10 +166,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div></div>
 
 
     <br><br><br><br><br><br><br><br><br><br><br><br>
+    <div>
     <h4>Department of Education</h4>
     <div class="row" style="padding: 10px">
         <div class="col-md-3" style="padding-left: 50px;margin-left: -45px">
@@ -209,10 +216,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div></div>
 
 
     <br><br><br><br><br><br><br><br><br><br><br>
+    <div>
     <h4>Department of Defence</h4>
     <div class="row" style="padding: 10px">
         <div class="col-md-3" style="padding-left: 50px;margin-left: -45px">
@@ -258,11 +266,20 @@
                 </div>
             </div>
         </div>
-    </div><br><br>
+    </div></div><br><br>
 
 </div>
 <br><br>
-
+<script>
+    $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myList div").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+    </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
