@@ -145,15 +145,17 @@
     </div>
 </div>
 
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-32">
-    <h1 class="w3-margin w3-xlarge"></h1>
-    <h1 class="w3-margin w3-xlarge"></h1>
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64 w3-margin-bottom">
+    <h4 class="w3-margin  w3-show-inline-block">About us</h4>
+    <h4 class="w3-margin  w3-show-inline-block">Contact us</h>
+    <h4 class="w3-margin  w3-show-inline-block">Feedback</h4>
+    <h4 class="w3-margin  w3-show-inline-block">Help</h4>
+    <h4 class="w3-margin  w3-show-inline-block">Newsletter</h4>
+    
+    
 </div>
 
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-opacity">
 
-</footer>
 
 <script>
     // Used to toggle the menu on small screens when clicking on the menu button
