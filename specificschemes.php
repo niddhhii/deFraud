@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'dbconnect.php';
+$GLOBALS['bal']=2000;
 ?>
 <head>
     <title>deFraud</title>
@@ -116,7 +117,7 @@ if($res->num_rows==1){
         </li>
 
         <li class="nav-item no-arrow" style="font-size: 17px">
-            <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link" onclick="genReport()" id="messagesDropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 Generate Report</a></li>
 
         <div class="topbar-divider d-none d-sm-block"></div>

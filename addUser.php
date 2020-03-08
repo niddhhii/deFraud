@@ -29,6 +29,7 @@ function sendSMS($num,$otp){
 if(isset($_POST['submit'])) {
 	$arr=$_REQUEST['q'];
 	$arr1=explode(',',$arr);
+	echo $arr1;
 	$_SESSION['uname']=$username = $arr1[0];
 	$_SESSION['pwd']=$pwd = $arr1[1];
 	$_SESSION['pan']=$pan = $arr1[3];

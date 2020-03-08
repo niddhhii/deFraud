@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,14 +14,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/all.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="logout_js.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
+
     <!-- Custom styles for this template-->
     <link href="dashboard.css" rel="stylesheet">
 
 </head>
 <?php
-    $_SESSION['category']='State';
-    if($_SESSION['category']=='Central'){
-       echo ' <body id="page-top">
+include 'dbconnect.php';
+$user_id=$_SESSION['user_id'];
+$sql="select * from user where id='$user_id'";
+$res=$con->query($sql);
+if($res->num_rows==1){
+	while($row=$res->fetch_assoc()){
+		$sender=$row['uname'];
+		echo "<script>const sender='".$sender."';</script>";
+		$addr=$row['addr'];
+		echo "<script>const sender_addr='".$addr."';</script>";
+	}
+}
+?>
+<?php
+$GLOBALS["bal"]=7000;
+$_SESSION['category']='State';
+if($_SESSION['category']=='Central'){
+	echo ' <body id="page-top">
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -44,9 +60,8 @@
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto" style="font-size: 17px">
                 <li class="nav-item no-arrow">
-                        <a class="nav-link" href="#" id="balance" role="button"  aria-haspopup="true" aria-expanded="false" style="font-size:25px;letter-spacing:1px;color:white ;margin-right:230px">
-            Balance : </a></li>
-            
+                        <a class="nav-link" href="#" id="balance" role="button"  aria-haspopup="true" aria-expanded="false" style="font-size:25px;letter-spacing:1px;color:white ;margin-right:25px">
+           </a></li>
                     <li class="nav-item no-arrow">
                         <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Dashboard</a></li>
@@ -101,7 +116,7 @@
                     </li>
 
                     <li class="nav-item no-arrow" style="font-size: 17px">
-                        <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" id="messagesDropdown" role="button" onclick="genReport()" aria-haspopup="true" aria-expanded="false">
             Generate Report</a></li>
 
                     <div class="topbar-divider d-none d-sm-block"></div>
@@ -323,8 +338,8 @@
 
 </body>
     ';}
-    elseif ($_SESSION['category']=='State'){
-        echo '<body id="page-top">
+elseif ($_SESSION['category']=='State'){
+	echo '<body id="page-top">
 <div id="wrapper">
 
     <!-- Content Wrapper -->
@@ -345,8 +360,8 @@
                 <ul class="navbar-nav ml-auto" style="font-size: 17px">
                     
                     <li class="nav-item no-arrow">
-                        <a class="nav-link" href="#" id="balance" role="button"  aria-haspopup="true" aria-expanded="false" style="font-size:25px;letter-spacing:1px;color:white ;margin-right:230px">
-            Balance : </a></li>
+                        <a class="nav-link" href="#" id="balance" role="button"  aria-haspopup="true" aria-expanded="false" style="font-size:25px;letter-spacing:1px;color:white ;margin-right:25px">
+            </a></li>
                 
                     <li class="nav-item no-arrow">
                         <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white;color:black">
@@ -402,7 +417,7 @@
                     </li>
 
                     <li class="nav-item no-arrow" style="font-size: 17px">
-                        <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" href="#" id="messagesDropdown" onclick="genReport()" role="button" aria-haspopup="true" aria-expanded="false">
             Generate Report</a></li>
 
                     <div class="topbar-divider d-none d-sm-block"></div>
@@ -620,7 +635,197 @@
     <script src="chart-pie-demo-state.js"></script>
 
 </body>';
-    }
+}
 ?>
+<script>
+    let receiver, contract, newLen, balance;
+
+    function startApp() {
+        let abi=[{"constant":false,"inputs":[{"internalType":"address","name":"_receiver","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"string","name":"_scheme","type":"string"}],"name":"transferFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"string","name":"_owner","type":"string"}],"name":"hash","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"transactions","outputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"receiver","type":"address"},{"internalType":"string","name":"scheme","type":"string"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"uname","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"}];
+        let fundsAddress = "0x9F2203Be246a2eF67a79a95AB589D4968B4a9B6B";
+        let web3 = new Web3('http://localhost:8545');
+        contract = new web3.eth.Contract(abi, fundsAddress);
+        newLen = 0;
+    }
+    startApp();
+    function timeConverter(unixTimestamp) {
+        var options = { day: '2-digit', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        var dateObj = new Date(unixTimestamp * 1000);
+        return dateObj.toLocaleString('en-IN', options).replace(/,/g, "");
+    }
+    function getBalance() {
+        contract.methods.balanceOf(sender_addr).call().then(function (bal) {
+            balance = bal;
+        })
+    }
+    function updateBalance() {
+        $('#balance').html(balance);
+    }
+
+    window.setInterval(function () {
+        getBalance();
+        updateBalance();
+        // getTransactions();
+        // track();
+    }, 100);
+
+    function wait(time) {
+        for (let i = 0; i < time; i++);
+    }
+
+    function genReport() {
+        var report = new Array();
+        var tableHeaders = ["Date", "Sender", "Receiver", "Scheme", "Amount"];
+        let csvContent = "data:text/csv;charset=utf-8,";
+        let row = tableHeaders.join(",");
+        csvContent += row + "\r\n";
+        contract.methods.getLength().call().then(function (length) {
+            var i = 0;
+            for (let transid = 0, p = Promise.resolve(); transid < length; transid++) {
+                p = p.then(_ => new Promise(resolve =>
+                    contract.methods.transactions(transid).call().then(function (trans) {
+                        if (trans) {
+                            let trow = [timeConverter(trans.timestamp), hashToName(trans.sender), hashToName(trans.receiver), trans.scheme, trans.amount];
+                            let row = trow.join(",");
+                            csvContent += row + "\r\n";
+                            resolve();
+                            i++;
+                        }
+                    })
+                ));
+            }
+            var callCsv = setInterval(checkCsv, 1000);
+            function checkCsv() {
+                if (i == length) {
+                    clearInterval(callCsv);
+                    downloadCsv(csvContent);
+                }
+            }
+        })
+    }
+    function downloadCsv(csvContent) {
+        var encodedUri = encodeURI(csvContent);
+        var link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.style.display = 'none';
+        link.setAttribute("download", "Funds Report.csv");
+        link.innerHTML = "Click Here to download";
+        document.body.appendChild(link);
+
+        link.click();
+        link.remove();
+    }
+    function hashToName(address) {
+        if(address.localeCompare("0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee")==0){
+            return "ramu";
+        }else if(address.localeCompare("0x96aFC09b5b54c083E3B0Bf2bDe4A62cfD6c10508")==0){
+            return "kaybee";
+        }else if(address.localeCompare("0x0938Bc0ff38CE4ae11FdA2b42AcB6Ca768668170")==0){
+            return "nidhi";
+        }else{
+            return "shardul";
+        }
+    }
+    function nameToHash(uname) {
+        /* if(uname.localeCompare("ramu")==0){
+			 return "0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee";
+		 }else if(uname.localeCompare("kaybee")==0){
+			 return "0x96aFC09b5b54c083E3B0Bf2bDe4A62cfD6c10508";
+		 }else if(uname.localeCompare("nidhi")==0){
+			 return "0x0938Bc0ff38CE4ae11FdA2b42AcB6Ca768668170";
+		 }else{
+			 return "0x4A746fe073C1B1e024B96e1D4bB435f51aC7541a";
+		 }*/
+        return '0x96aFC09b5b54c083E3B0Bf2bDe4A62cfD6c10508';
+    }
+    function sendEmail(amount,receiver,scheme,email) {
+        Email.send({
+            Host: "smtp.gmail.com",
+            Username: "kbohra89@gmail.com",
+            Password: "rabtizaebvftujgd",
+            To: email,
+            From: "kbohra89@gmail.com",
+            Subject: "Notification about fund transfer",
+            Body: "Dear Officer,<br><br>" + receiver + " has received " + amount + " for " + scheme,
+        });
+    }
+
+    function updateProg() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                localStorage.setItem('ts','2020-03-08 13:30:00');
+            }
+        };
+        xmlhttp.open("GET", "updateProg.php", true);
+        xmlhttp.send();
+    }
+
+    function updateDb(sender,receiver,amt,time_sent,scheme) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+            }
+        };
+        xmlhttp.open("POST", "addTrans.php?q=" + sender+","+receiver+","+amt+","+time_sent+","+scheme, true);
+        xmlhttp.send();
+    }
+    var j=0;
+    function sendFunds(uname,amt,scheme) {
+        var email = 'npd@somaiya.edu';
+        function getData() {
+            receiver = uname;
+            if (amt > 0 && !isNaN(amt) && (balance - amt) >= 0) {
+                Swal.fire({
+                    title: 'Sending the funds...',
+                    timerProgressBar:true,
+                    onBeforeOpen: () => {
+                        Swal.showLoading()
+                    }
+                });
+                return contract.methods.transferFunds(nameToHash(receiver), amt, scheme)
+                    .send({ from: sender_addr })
+                    .once('transactionHash',function(hash){
+                        console.log(hash);
+                        console.log(nameToHash(receiver), amt, scheme);
+                    })
+                    .on('receipt', function (receipt) {
+                        if (receipt) {
+                            updateBalance();
+                            // updateDb(sender,hashToName(receiver),amt,Date.now(),scheme);
+                            updateProg();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Funds Disbursed',
+                                text: 'Successfully sent money to ' + hashToName(receiver) + '!'
+                            }).then(sendEmail(amt,hashToName(receiver),scheme,email));
+                        }
+                    })
+                    .on("error", function (error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error,
+                        });
+                    });
+            } else if ((balance - amt) < 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Insufficient Balance!'
+                });
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Enter a valid number!'
+                });
+            }
+
+        }
+        getData();
+    }
+</script>
 
 </html>

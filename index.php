@@ -17,11 +17,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/modal.css" type="text/css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
+
 
 <script>
     function sign() {
         Swal.mixin({
-
             confirmButtonText: 'Next &rarr;',
             showCancelButton: true,
             progressSteps: ['1', '2']
@@ -42,21 +43,68 @@
                         Swal.fire({
                             title: 'Enter OTP:',
                             html: "<div class='b'></div><input id='swal-input2' class='swal2-input' required/> "
-                        })
+                        }).then(result)=>{
+                            sendTransaction();
+                        };
                     }
                 };
                 xmlhttp.open("GET", "addUser.php?q=" + result.value, true);
                 xmlhttp.send();
-            }).then((result) => {
-            if (result.value) {
-                const answers = result.value;
-                Swal.fire({
-                    title: 'All done!',
-                    html: 'Welcome to deFraud',
-                    confirmButtonText: 'Lovely!'
+            })
+    }
+    let senderId, receiverId, schemeId, receiver1, receiver2, receiver3, contract, newLen, balance;
+
+    function startApp() {
+        let abi =[{"constant":true,"inputs":[],"name":"getLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ids","outputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"string","name":"uname","type":"string"},{"internalType":"string","name":"full_name","type":"string"},{"internalType":"string","name":"father_name","type":"string"},{"internalType":"string","name":"pan_no","type":"string"},{"internalType":"string","name":"dob","type":"string"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"string","name":"_pan","type":"string"}],"name":"ownerOf","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"string","name":"_uname","type":"string"}],"name":"panOf","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"string","name":"_uname","type":"string"},{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_father","type":"string"},{"internalType":"string","name":"_pan","type":"string"},{"internalType":"string","name":"_dob","type":"string"}],"name":"storeId","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
+        let fundsAddress = "0x1C7814D6dEa5460773CFb9DDdFF0afDBDFDc3EC8";
+        let web3 = new Web3('http://localhost:8545');
+        contract = new web3.eth.Contract(abi, fundsAddress);
+        senderId = "0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee";
+        newLen = 0;
+    }
+    startApp();
+
+    function sendTransaction() {
+        var userAccount;
+        var name = "NIDHI DEDHIA";
+        var uname = "nidhi";
+        var fname = "NARESH HARISH DEDHIA";
+        var dob = "1999-09-01";
+        var pan = "EDSPA1345N";
+
+        function getData() {
+            userAccount = '0xCca7560Aa7362F49F3E3bA3CC6f248f6d34900Ee';
+
+            Swal.fire({
+                title: 'Adding user...',
+                timerProgressBar: true,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+            return contract.methods.storeId(uname, name,fname, pan, dob)
+                .send({ from: userAccount })
+                .once('transactionHash',function(hash){
+                    console.log(hash);
                 })
-            }
-        })
+                .on('receipt', function (receipt) {
+                    if (receipt) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'details saved',
+
+                        })
+                    }
+                })
+                .on("error", function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                    });
+                });
+        }
+        getData();
     }
 </script>
 <style>
