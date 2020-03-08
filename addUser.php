@@ -1,6 +1,7 @@
 <?php
 
 include 'dbconnect.php';
+session_start();
 
 function sendSMS($num,$otp){
 	$apiKey = urlencode('FoK0W4xRlU0-tufoL9Rn04n4fyAVfAISLB7LGMfIWC');
@@ -26,10 +27,12 @@ function sendSMS($num,$otp){
 }
 
 if(isset($_POST['submit'])) {
-	$_SESSION['uname']=$username = $_POST['uname'];
-	$_SESSION['pwd']=$pwd = $_POST['pwd'];
-	$_SESSION['pan']=$pan = $_POST['pan'];
-	$_SESSION['category']=$category = $_POST['category'];
+	$arr=$_REQUEST['q'];
+	$arr1=explode(',',$arr);
+	$_SESSION['uname']=$username = $arr1[0];
+	$_SESSION['pwd']=$pwd = $arr1[1];
+	$_SESSION['pan']=$pan = $arr1[3];
+	$_SESSION['category']=$category = $arr1[2];
 
 	$addsql = "select * from pan where pan='$pan'";
 

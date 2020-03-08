@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php include 'dbconnect.php';
+?>
 <title>deFraud</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,42 +19,46 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
 <script>
-
-
     function sign() {
         Swal.mixin({
 
             confirmButtonText: 'Next &rarr;',
             showCancelButton: true,
-            progressSteps: ['1', '2', '3']
+            progressSteps: ['1', '2']
         }).queue([
             {
                 title: 'Personal Details',
-                html: "<div class='b'><br><p>Username</p></div><input id='swal-input2' class='swal2-input' required/><div class='b'><p>Password</p></div><input type='password' id='swal-input1' class='swal2-input' autofocus minlength='500' >"
+                html: "<div class='b'><br><p>Username</p></div><input id='swal-input2' class='swal2-input' required/><div class='b'><p>Password</p></div><input type='password' id='swal-input1' class='swal2-input' autofocus minlength='500' ><div class='b'><br><p>Category</p></div><input id='swal-input3' class='swal2-input' required/>"
             },
             {
                 title: 'KYC details',
-                html: "<div class='b'><p>Pan Number</p></div><input id='swal-input2' class='swal2-input' required/>  "
-            }.then(()=>{
-                this.
-            })
-            {
-                title: 'Enter OTP:',
-                html: "<div class='b'></div><input id='swal-input2' class='swal2-input' required/> "
-            }
-        ]).then((result) => {
+                html: "<div class='b'><p>PAN Number</p></div><input id='swal-input2' class='swal2-input' required/> "
+
+            }])
+            .then((result)=>{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        Swal.fire({
+                            title: 'Enter OTP:',
+                            html: "<div class='b'></div><input id='swal-input2' class='swal2-input' required/> "
+                        })
+                    }
+                };
+                xmlhttp.open("GET", "addUser.php?q=" + result.value, true);
+                xmlhttp.send();
+            }).then((result) => {
             if (result.value) {
                 const answers = result.value;
                 Swal.fire({
                     title: 'All done!',
-                    html: `
-          Welcome to deFraud!
-        `,
+                    html: 'Welcome to deFraud',
                     confirmButtonText: 'Lovely!'
                 })
             }
         })
-    }</script>
+    }
+</script>
 <style>
     body, h1, h2, h3, h4, h5, h6 {
         font-family: "Lato", sans-serif
@@ -149,15 +155,11 @@
 
 <div class="w3-container w3-black w3-center w3-opacity w3-padding-64 w3-margin-bottom">
     <h4 class="w3-margin  w3-show-inline-block">About us</h4>
-    <h4 class="w3-margin  w3-show-inline-block">Contact us</h>
+    <h4 class="w3-margin  w3-show-inline-block">Contact us</h4>
     <h4 class="w3-margin  w3-show-inline-block">Feedback</h4>
     <h4 class="w3-margin  w3-show-inline-block">Help</h4>
     <h4 class="w3-margin  w3-show-inline-block">Newsletter</h4>
-    
-    
 </div>
-
-
 
 <script>
     // Used to toggle the menu on small screens when clicking on the menu button
