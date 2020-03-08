@@ -59,7 +59,7 @@
             return dateObj.toLocaleString('en-IN', options).replace(/,/g, "");
         }
         function getBalance() {
-            contract.methods.balanceOf(senderId).call().then(function (bal) {
+            contract.methods.balanceOf(sender_addr).call().then(function (bal) {
                 balance = bal;
             })
         }
