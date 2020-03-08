@@ -46,6 +46,56 @@
 
 <div class="container-fluid" style="margin:0 50px;" id="mylist">
     <br>
+
+    <div>
+        <h4>Department of Railway Affairs</h4>
+        <div class="row" style="padding: 10px">
+            <div class="col-md-3" style="padding-left: 50px;margin-left: -45px">
+                <div class="card" style="margin: 0">
+                    <img src="images/rail1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <a href="specificschemes.php"><h5 class="card-title" style="cursor: pointer">Welfare Scheme For Railway Officers</h5></a>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding-left:50px;margin-left: -20px">
+                <div class="card" style="margin:0">
+                    <img src="images/rail2.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding-left:50px;margin-left: -20px">
+                <div class="card" style="margin:0">
+                    <img src="images/rail4.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding-left:50px;margin-left: -20px">
+                <div class="card" style="margin:0">
+                    <img src="images/rail3.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+    <br><br><br><br><br><br><br><br><br><br><hr><br>
+
     <div>
         <h4>Department of Agriculture</h4>
         <div class="row" style="padding: 10px">
@@ -91,7 +141,7 @@
         </div></div>
 
 
-    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><hr><br>
     <div>
         <h4>Department of Education</h4>
         <div class="row" style="padding: 10px">
@@ -141,7 +191,7 @@
         </div></div>
 
 
-    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><hr><br>
     <div>
         <h4>Department of Defence</h4>
         <div class="row" style="padding: 10px">

@@ -80,7 +80,7 @@
         border-radius: 3px;
     }
 </style>
-<body>
+<body style="overflow-y: hidden">
 
 <nav class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow">
 
@@ -110,11 +110,11 @@
 
 </nav>
 
-<header class="w3-container w3-center" style="padding:128px 16px">
-    <h1 class=" w3-jumbo ">deFraud</h1>
-    <p class="w3-xlarge">For a fraud free government</p>
+<header class="w3-container w3-center" style="padding:65px 16px">
+    <h1 class=" w3-jumbo ">deFraud</h1><br>
+    <p class="w3-xlarge">Decentralized way to curb frauds</p><br><br>
     <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" data-toggle="modal"
-            data-target="#orangeModalSubscription">Sign In
+            data-target="#orangeModalSubscription">Sign In<br>
     </button>
 </header>
 <div class="modal fade" id="orangeModalSubscription" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
