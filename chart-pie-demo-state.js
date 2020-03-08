@@ -7,11 +7,11 @@ var ctx = document.getElementById("myPieChart");
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Funded", "Non-Funded"],
+    labels: ["Thane", "Nagpur","Aurangabad"],
     datasets: [{
-      data: [85, 15],
-      backgroundColor: ['#4e73df', '#1cc88a'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673'],
+      data: [65, 15,20],
+      backgroundColor: ['#4e73df', '#1cc88a','#36b9cc'],
+      hoverBackgroundColor: ['#2e59d9', '#17a673','#2c9faf'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   },
