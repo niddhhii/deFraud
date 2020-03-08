@@ -30,15 +30,15 @@
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto" style="font-size: 17px">
         <li class="nav-item no-arrow">
-            <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link" href="dashboard.php" id="messagesDropdown" role="button"  aria-haspopup="true" aria-expanded="false" style="color: white">
                 Dashboard</a></li>
-        <li class="nav-item no-arrow" style="font-size: 17px">
-            <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item no-arrow" style="font-size: 17px;">
+            <a class="nav-link" href="#" id="messagesDropdown" role="button"  aria-haspopup="true" aria-expanded="false" style=" background-color:white; color: black">
                 Schemes</a></li>
 
         <!-- Nav Item - Messages -->
         <li class="nav-item dropdown no-arrow mx-1" style="font-size: 17px">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" style="color: white" aria-haspopup="true" aria-expanded="false">
                 Notifications
                 <!-- Counter - Messages -->
                 <span class="badge badge-danger badge-counter">7</span>
@@ -83,7 +83,7 @@
         </li>
 
         <li class="nav-item no-arrow" style="font-size: 17px">
-            <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white">
                 Generate Report</a></li>
 
         <div class="topbar-divider d-none d-sm-block"></div>
@@ -124,7 +124,58 @@
 
 <div class="container-fluid" style="margin:0 50px;" id="mylist">
     <br>
-<div>
+
+    <div>
+        <h4>Department of Railway Affairs</h4>
+        <div class="row" style="padding: 10px">
+            <div class="col-md-3" style="padding-left: 50px;margin-left: -45px">
+                <div class="card" style="margin: 0">
+                    <img src="images/rail1.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="cursor: pointer" onclick="location.replace('specificschemes.php')">Welfare Scheme For Railway Officers</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding-left:50px;margin-left: -20px">
+                <div class="card" style="margin:0">
+                    <img src="images/rail2.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding-left:50px;margin-left: -20px">
+                <div class="card" style="margin:0">
+                    <img src="images/rail4.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="padding-left:50px;margin-left: -20px">
+                <div class="card" style="margin:0">
+                    <img src="images/rail3.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                            card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+
+
+<div><br><br><br><br><br><br><br><br><br><br><br><hr><br>
+
     <h4>Department of Agriculture</h4>
     <div class="row" style="padding: 10px">
         <div class="col-md-3" style="padding-left: 50px;margin-left: -45px">
@@ -141,7 +192,7 @@
             <div class="card" style="margin:0">
                 <img src="images/agri2.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Soil Health Management</h5>
+                    <h5 class="card-title"  >Soil Health Management</h5>
                     <p class="card-text">SHC is a Government of India’s scheme promoted by the Dept. of Agriculture under the Ministry of Agriculture and Farmers’ Welfare.</p>
                 </div>
             </div>
@@ -169,7 +220,7 @@
     </div></div>
 
 
-    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><hr><br>
     <div>
     <h4>Department of Education</h4>
     <div class="row" style="padding: 10px">
@@ -219,7 +270,7 @@
     </div></div>
 
 
-    <br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><hr><br>
     <div>
     <h4>Department of Defence</h4>
     <div class="row" style="padding: 10px">
@@ -266,7 +317,11 @@
                 </div>
             </div>
         </div>
-    </div></div><br><br>
+    </div></div>
+
+
+    <br><br><br><br><br><br>
+
 
 </div>
 <br><br>

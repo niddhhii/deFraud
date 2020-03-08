@@ -64,7 +64,7 @@ if($res->num_rows==1){
   <!-- Topbar Navbar -->
   <ul class="navbar-nav ml-auto" style="font-size: 17px">
       <li class="nav-item no-arrow">
-          <a class="nav-link " href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link " href="dashboard.php" id="messagesDropdown" role="button" aria-haspopup="true" aria-expanded="false">
               Dashboard</a></li>
       <li class="nav-item no-arrow" style="font-size: 17px">
           <a class="nav-link" href="#SchemeModal" data-toggle="modal" data-target=".bd-example-modal-lg" style="background-color: white;color: black;" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -138,7 +138,7 @@ if($res->num_rows==1){
                   Settings
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" onclick="logout()" style="cursor: pointer">
+                  <a class="dropdown-item" onclick="logout()" style="cursor: pointer">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
               </a>

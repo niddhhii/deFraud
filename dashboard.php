@@ -43,11 +43,15 @@
                 </ul>
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto" style="font-size: 17px">
+                <li class="nav-item no-arrow">
+                        <a class="nav-link" href="#" id="balance" role="button"  aria-haspopup="true" aria-expanded="false" style="font-size:25px;letter-spacing:1px;color:white ;margin-right:230px">
+            Balance : </a></li>
+            
                     <li class="nav-item no-arrow">
                         <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Dashboard</a></li>
                     <li class="nav-item no-arrow" style="font-size: 17px">
-                        <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" href="schemes.php" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Schemes</a></li>
 
                     <!-- Nav Item - Messages -->
@@ -339,11 +343,16 @@
                 </ul>
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto" style="font-size: 17px">
+                    
+                    <li class="nav-item no-arrow">
+                        <a class="nav-link" href="#" id="balance" role="button"  aria-haspopup="true" aria-expanded="false" style="font-size:25px;letter-spacing:1px;color:white ;margin-right:230px">
+            Balance : </a></li>
+                
                     <li class="nav-item no-arrow">
                         <a class="nav-link" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white;color:black">
             Dashboard</a></li>
                     <li class="nav-item no-arrow" style="font-size: 17px">
-                        <a class="nav-link" href="specificschemes.php" id="messagesDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link" href="schemes.php" id="messagesDropdown" role="button" aria-haspopup="true" aria-expanded="false">
             Schemes</a></li>
 
                     <!-- Nav Item - Messages -->

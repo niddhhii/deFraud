@@ -33,7 +33,9 @@
             {
                 title: 'KYC details',
                 html: "<div class='b'><p>Pan Number</p></div><input id='swal-input2' class='swal2-input' required/>  "
-            },
+            }.then(()=>{
+                this.
+            })
             {
                 title: 'Enter OTP:',
                 html: "<div class='b'></div><input id='swal-input2' class='swal2-input' required/> "
